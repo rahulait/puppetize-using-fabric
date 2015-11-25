@@ -1,0 +1,12 @@
+*.*~
+*.pyc
+*.bak
+*.pyo
+*.pem
+*.patch
+*.rej
+*.diff
+*.txt
+
+# Don't add passwords file
+settings.ini
