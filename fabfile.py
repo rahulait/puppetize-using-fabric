@@ -1,3 +1,24 @@
+#########################################################
+# File: fabfile.py
+# Author: Rahul Sharma <rahuls@ccs.neu.edu>
+# Desc: automates task of performing common tasks on
+#       all the nodes selected. Tasks can be done in
+#       parallel or sequentially.
+#
+# Target Versions: Python2
+#
+# Dependencies
+# -----------------
+# RHEL based:
+# yum install fabric
+#
+# Debian based:
+# sudo apt-get install fabric
+#
+# Both:
+# sudo pip install fabric
+#########################################################
+
 import ConfigParser
 from fabric.api import run
 from fabric.api import local
@@ -36,3 +57,29 @@ def get_logs():
 def puppetize():
     run(sudo("puppet agent -t", shell=False))
 
+
+def yum_update():
+    if not(registered()):
+        register_node()
+    run(sudo("yum update -y", shell=False))
+
+
+def restart_services():
+    run(sudo("openstack-service restart", shell=False))
+
+
+def register_node():
+    user = config.get('redhat', 'user')
+    password = config.get('redhat', 'password')
+    command = "subscription-manager register --user=%s --password=%s" \
+              % (user, password)
+    run(sudo(command, shell=False))
+
+    pool = config.get('redhat', 'pool')
+    command = "subscription-manager attach --pool=%s" % pool
+    run(sudo(command, shell=False))
+
+
+def registered():
+    #run(sudo(, shell=False))
+    pass
