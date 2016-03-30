@@ -1,4 +1,4 @@
-#########################################################
+#############################################################################
 # File: fabfile.py
 # Author: Rahul Sharma <rahuls@ccs.neu.edu>
 # Desc: automates task of performing common tasks on
@@ -17,13 +17,14 @@
 #
 # Both:
 # sudo pip install fabric
-#########################################################
+#############################################################################
 
 import ConfigParser
 from fabric.api import run
 from fabric.api import local
 from fabric.api import env
 from fabric.api import sudo
+from fabric.context_managers import prefix
 
 CONFIG_FILE = "settings.ini"
 
@@ -83,3 +84,9 @@ def register_node():
 def registered():
     #run(sudo(, shell=False))
     pass
+
+
+def get_vm_tap_interface():
+    with prefix(". /home/rahuls/keystonerc_admin"):
+        run("neutron net-list", shell=False)
+

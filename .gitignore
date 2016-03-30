@@ -10,3 +10,6 @@
 
 # Don't add passwords file
 settings.ini
+
+# Don't add these directories
+.idea
